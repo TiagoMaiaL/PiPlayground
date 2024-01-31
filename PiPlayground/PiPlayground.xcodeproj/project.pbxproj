@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		477266E52B6AC23E004B0EE1 /* PiPlaygroundApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */; };
-		477266E72B6AC23E004B0EE1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266E62B6AC23E004B0EE1 /* ContentView.swift */; };
 		477266E92B6AC23F004B0EE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 477266E82B6AC23F004B0EE1 /* Assets.xcassets */; };
 		477266EC2B6AC23F004B0EE1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 477266EB2B6AC23F004B0EE1 /* Preview Assets.xcassets */; };
+		477266F32B6AC8F8004B0EE1 /* MoviesCatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266F22B6AC8F8004B0EE1 /* MoviesCatalogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		477266E12B6AC23E004B0EE1 /* PiPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiPlaygroundApp.swift; sourceTree = "<group>"; };
-		477266E62B6AC23E004B0EE1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		477266E82B6AC23F004B0EE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		477266EB2B6AC23F004B0EE1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		477266F22B6AC8F8004B0EE1 /* MoviesCatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCatalogView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */,
-				477266E62B6AC23E004B0EE1 /* ContentView.swift */,
+				477266F22B6AC8F8004B0EE1 /* MoviesCatalogView.swift */,
 				477266E82B6AC23F004B0EE1 /* Assets.xcassets */,
 				477266EA2B6AC23F004B0EE1 /* Preview Content */,
 			);
@@ -137,8 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				477266E72B6AC23E004B0EE1 /* ContentView.swift in Sources */,
 				477266E52B6AC23E004B0EE1 /* PiPlaygroundApp.swift in Sources */,
+				477266F32B6AC8F8004B0EE1 /* MoviesCatalogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

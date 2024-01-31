@@ -2,7 +2,7 @@
 //  PiPlaygroundApp.swift
 //  PiPlayground
 //
-//  Created by Knowledge Temple on 31/01/24.
+//  Created by Tiago Lopes on 31/01/24.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct PiPlaygroundApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MoviesCatalogView()
         }
     }
 }
