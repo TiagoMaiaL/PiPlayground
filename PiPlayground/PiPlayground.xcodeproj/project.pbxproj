@@ -51,10 +51,9 @@
 		477266E32B6AC23E004B0EE1 /* PiPlayground */ = {
 			isa = PBXGroup;
 			children = (
-				477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */,
-				477266F22B6AC8F8004B0EE1 /* MoviesCatalogView.swift */,
-				477266E82B6AC23F004B0EE1 /* Assets.xcassets */,
-				477266EA2B6AC23F004B0EE1 /* Preview Content */,
+				477266F52B6BCA0C004B0EE1 /* Model */,
+				477266F42B6BC9FF004B0EE1 /* Views */,
+				477266F62B6BCA27004B0EE1 /* Resources */,
 			);
 			path = PiPlayground;
 			sourceTree = "<group>";
@@ -65,6 +64,31 @@
 				477266EB2B6AC23F004B0EE1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		477266F42B6BC9FF004B0EE1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */,
+				477266F22B6AC8F8004B0EE1 /* MoviesCatalogView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		477266F52B6BCA0C004B0EE1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		477266F62B6BCA27004B0EE1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				477266EA2B6AC23F004B0EE1 /* Preview Content */,
+				477266E82B6AC23F004B0EE1 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,7 +295,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PiPlayground/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PiPlayground/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -299,7 +323,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PiPlayground/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PiPlayground/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
