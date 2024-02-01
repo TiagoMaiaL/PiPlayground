@@ -8,14 +8,7 @@
 import SwiftUI
 
 struct MoviesCatalogView: View {
-    var movies: [String] {
-        [
-            "Movie 1",
-            "Movie 2",
-            "Movie 3",
-            "Movie 4"
-        ]
-    }
+    var movies: [Movie] = MovieCatalog.defaultCatalog.movies
     
     var body: some View {
         VStack {
@@ -37,8 +30,8 @@ struct MoviesCatalogView: View {
     
     private var movieCatalog: some View {
         ScrollView {
-            ForEach(movies, id: \.self) { movie in
-                movieCatalogItem(movieName: movie)
+            ForEach(movies) { movie in
+                movieCatalogItem(movieName: movie.title)
             }
             .padding()
         }
