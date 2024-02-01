@@ -19,28 +19,40 @@ struct MoviesCatalogView: View {
     
     var body: some View {
         VStack {
+            header
+            movieCatalog
+        }
+    }
+    
+    @ViewBuilder
+    private var header: some View {
+        HStack {
+            Text("PiPlayground")
+            Image(systemName: "video.circle")
+        }
+        .font(.title)
+        
+        Divider()
+    }
+    
+    private var movieCatalog: some View {
+        ScrollView {
+            ForEach(movies, id: \.self) { movie in
+                movieCatalogItem(movieName: movie)
+            }
+            .padding()
+        }
+    }
+    
+    private func movieCatalogItem(movieName: String) -> some View {
+        VStack {
             HStack {
-                Text("PiPlayground")
-                Image(systemName: "video.circle")
+                Text(movieName)
+                Spacer()
+                Image(systemName: "chevron.forward")
             }
-            .font(.title)
-            
+            .padding(.vertical)
             Divider()
-            
-            ScrollView {
-                ForEach(movies, id: \.self) { movie in
-                    VStack {
-                        HStack {
-                            Text(movie)
-                            Spacer()
-                            Image(systemName: "chevron.forward")
-                                .foregroundStyle(.blue)
-                        }
-                        Divider()
-                    }
-                }
-                .padding()
-            }
         }
     }
 }
