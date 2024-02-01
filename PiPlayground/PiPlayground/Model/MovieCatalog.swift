@@ -12,7 +12,7 @@ struct MovieCatalog {
 }
 
 extension MovieCatalog {
-    static var defaultCatalog: Self {
+    static var `default`: Self {
         MovieCatalog(movies: [
             Movie(
                 title: "Big Buck Bunny",

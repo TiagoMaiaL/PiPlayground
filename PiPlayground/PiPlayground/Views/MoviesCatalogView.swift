@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MoviesCatalogView: View {
-    var movies: [Movie] = MovieCatalog.defaultCatalog.movies
+    var movies: [Movie] = MovieCatalog.default.movies
     
     var body: some View {
         VStack {

@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct PiPlaygroundApp: App {
+    
+    
     var body: some Scene {
         WindowGroup {
             MoviesCatalogView()
