@@ -9,7 +9,8 @@ import SwiftUI
 
 @main
 struct PiPlaygroundApp: App {
-    
+    @StateObject
+    var model = Model()
     
     var body: some Scene {
         WindowGroup {

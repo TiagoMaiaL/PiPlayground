@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Model {
+final class Model: ObservableObject {
     let movieCatalog: MovieCatalog = .default
-    var activeMovieSession: MovieSession?
+    private(set) var activeMovieSession: MovieSession?
     
-    mutating func createSession(for movie: Movie) -> MovieSession {
+    func createSession(for movie: Movie) -> MovieSession {
         let session = MovieSession(movie: movie)
         activeMovieSession = session
         return session

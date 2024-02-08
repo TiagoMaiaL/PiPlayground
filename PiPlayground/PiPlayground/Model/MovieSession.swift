@@ -11,4 +11,6 @@ final class MovieSession {
     init(movie: Movie) {
         self.movie = movie
     }
+    
+    
 }

@@ -11,21 +11,22 @@ struct MoviesCatalogView: View {
     var movies: [Movie] = MovieCatalog.default.movies
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             header
             movieCatalog
         }
     }
     
-    @ViewBuilder
     private var header: some View {
-        HStack {
-            Text("PiPlayground")
-            Image(systemName: "video.circle")
+        VStack {
+            HStack {
+                Text("PiPlayground")
+                Image(systemName: "video.circle")
+            }
+            .font(.title)
+            
+            Divider()
         }
-        .font(.title)
-        
-        Divider()
     }
     
     private var movieCatalog: some View {
@@ -33,7 +34,7 @@ struct MoviesCatalogView: View {
             ForEach(movies) { movie in
                 movieCatalogItem(movieName: movie.title)
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
     
