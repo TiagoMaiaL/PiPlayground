@@ -13,8 +13,9 @@ struct MovieView: View {
     
     var body: some View {
         VStack {
-            Text("Movie name")
+            Text(movieSession.movie.title)
                 .font(.title)
+            Text(movieSession.movie.subtitle)
             
             Spacer()
             

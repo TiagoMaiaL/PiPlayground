@@ -14,7 +14,7 @@ struct PiPlaygroundApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MoviesCatalogView()
+            MoviesCatalogView(model: model)
         }
     }
 }

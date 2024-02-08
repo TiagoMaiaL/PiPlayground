@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MoviesCatalogView: View {
-    var movies: [Movie] = MovieCatalog.default.movies
+    @ObservedObject
+    var model: Model
     
     var body: some View {
         NavigationStack {
@@ -16,7 +17,7 @@ struct MoviesCatalogView: View {
                 header
                 movieCatalog
                     .navigationDestination(for: Movie.self) { movie in
-                        MovieView(movieSession: MovieSession(movie: movie))
+                        MovieView(movieSession: model.createSession(for: movie))
                     }
             }
         }
@@ -37,7 +38,7 @@ struct MoviesCatalogView: View {
     private var movieCatalog: some View {
         ScrollView {
             // TODO: Replace ForEach with a List.
-            ForEach(movies) { movie in
+            ForEach(model.movieCatalog.movies) { movie in
                 catalogItem(for: movie)
             }
             .padding(.horizontal)
@@ -63,5 +64,5 @@ struct MoviesCatalogView: View {
 }
 
 #Preview {
-    MoviesCatalogView()
+    MoviesCatalogView(model: Model())
 }
