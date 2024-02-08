@@ -15,6 +15,7 @@
 		477266FA2B6BCC3D004B0EE1 /* MovieCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266F92B6BCC3D004B0EE1 /* MovieCatalog.swift */; };
 		477266FC2B6BCED4004B0EE1 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266FB2B6BCED4004B0EE1 /* Model.swift */; };
 		477266FE2B6BD298004B0EE1 /* MovieSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266FD2B6BD298004B0EE1 /* MovieSession.swift */; };
+		477267002B75839E004B0EE1 /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266FF2B75839E004B0EE1 /* MovieView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		477266F92B6BCC3D004B0EE1 /* MovieCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCatalog.swift; sourceTree = "<group>"; };
 		477266FB2B6BCED4004B0EE1 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		477266FD2B6BD298004B0EE1 /* MovieSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSession.swift; sourceTree = "<group>"; };
+		477266FF2B75839E004B0EE1 /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */,
 				477266F22B6AC8F8004B0EE1 /* MoviesCatalogView.swift */,
+				477266FF2B75839E004B0EE1 /* MovieView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 			files = (
 				477266FC2B6BCED4004B0EE1 /* Model.swift in Sources */,
 				477266FA2B6BCC3D004B0EE1 /* MovieCatalog.swift in Sources */,
+				477267002B75839E004B0EE1 /* MovieView.swift in Sources */,
 				477266E52B6AC23E004B0EE1 /* PiPlaygroundApp.swift in Sources */,
 				477266FE2B6BD298004B0EE1 /* MovieSession.swift in Sources */,
 				477266F32B6AC8F8004B0EE1 /* MoviesCatalogView.swift in Sources */,
