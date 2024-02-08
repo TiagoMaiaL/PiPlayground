@@ -11,9 +11,14 @@ struct MoviesCatalogView: View {
     var movies: [Movie] = MovieCatalog.default.movies
     
     var body: some View {
-        VStack(spacing: 0) {
-            header
-            movieCatalog
+        NavigationStack {
+            VStack(spacing: 0) {
+                header
+                movieCatalog
+                    .navigationDestination(for: Movie.self) { movie in
+                        MovieView(movieSession: MovieSession(movie: movie))
+                    }
+            }
         }
     }
     
@@ -31,22 +36,28 @@ struct MoviesCatalogView: View {
     
     private var movieCatalog: some View {
         ScrollView {
+            // TODO: Replace ForEach with a List.
             ForEach(movies) { movie in
-                movieCatalogItem(movieName: movie.title)
+                catalogItem(for: movie)
             }
             .padding(.horizontal)
         }
     }
     
-    private func movieCatalogItem(movieName: String) -> some View {
-        VStack {
-            HStack {
-                Text(movieName)
-                Spacer()
-                Image(systemName: "chevron.forward")
+    private func catalogItem(for movie: Movie) -> some View {
+        NavigationLink(value: movie) {
+            VStack {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(movie.title)
+                        Text(movie.subtitle)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.forward")
+                }
+                .padding(.vertical)
+                Divider()
             }
-            .padding(.vertical)
-            Divider()
         }
     }
 }
