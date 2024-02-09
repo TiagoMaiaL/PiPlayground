@@ -22,7 +22,7 @@ extension MovieCatalog {
             Movie(
                 title: "Elephant Dream",
                 subtitle: "By Blender Foundation",
-                url: URL(string: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!
+                url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")!
             ),
         ])
     }
