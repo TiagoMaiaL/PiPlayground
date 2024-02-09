@@ -5,6 +5,7 @@
 //  Created by Tiago Lopes on 08/02/24.
 //
 
+import AVKit
 import SwiftUI
 
 struct MovieView: View {
@@ -19,18 +20,34 @@ struct MovieView: View {
             
             Spacer()
             
-            // TODO: Replace this rectangle with a proper video view.
-            Rectangle()
-                .background(.gray)
-                .aspectRatio(3/2, contentMode: .fit)
-                .padding(.horizontal)
-            
-            Spacer()
-            
-            // TODO: Use the PiP button provided by Apple.
-            Button("Start picture in picture") {
-                // TODO: Start pip for the current session.
+            switch movieSession.state {
+            case .idle, .loading:
+                ProgressView()
+                    .progressViewStyle(.circular)
+                
+                Spacer()
+                
+            case .loaded(let player):
+                VideoPlayer(player: player)
+                    .frame(width: 350, height: 200)
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+                
+                Spacer()
+                
+                // TODO: Use the PiP button provided by Apple.
+                Button("Start picture in picture") {
+                    // TODO: Start pip for the current session.
+                }
+                
+            case .failed:
+                Text("There was an error loading the player.")
+                Spacer()
             }
+        }
+        .task {
+            await movieSession.loadVideo()
+            movieSession.startPlayback()
         }
     }
 }
