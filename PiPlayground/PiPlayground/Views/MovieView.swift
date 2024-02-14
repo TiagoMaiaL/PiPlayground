@@ -46,8 +46,13 @@ struct MovieView: View {
             }
         }
         .task {
-            await movieSession.loadVideo()
-            movieSession.startPlayback()
+            switch movieSession.state {
+            case .idle:
+                await movieSession.loadVideo()
+                movieSession.startPlayback()
+            default:
+                break
+            }
         }
     }
 }
