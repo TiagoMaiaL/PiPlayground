@@ -10,26 +10,34 @@ import AVFoundation
 
 struct VideoPlayer: View {
     weak var player: AVPlayer!
+    private var onLayerAppearanceAction: ((AVPlayerLayer) -> ())?
     
-    init(player: AVPlayer) {
+    init(player: AVPlayer, onLayerApperance onLayerAppearanceAction: ((AVPlayerLayer) -> ())? = nil) {
         self.player = player
+        self.onLayerAppearanceAction = onLayerAppearanceAction
     }
     
     var body: some View {
-        VisualLayer(for: player)
+        VisualLayer(for: player, onAppear: onLayerAppearanceAction)
+    }
+    
+    func onLayerAppearance(perform action: @escaping (AVPlayerLayer) -> ()) -> Self {
+        VideoPlayer(player: self.player, onLayerApperance: action)
     }
 }
 
 extension VideoPlayer {
     private struct VisualLayer: UIViewRepresentable {
         private weak var player: AVPlayer!
+        private var onAppear: ((AVPlayerLayer) -> ())?
         
-        init(for player: AVPlayer) {
+        init(for player: AVPlayer, onAppear: ((AVPlayerLayer) -> ())?) {
             self.player = player
+            self.onAppear = onAppear
         }
         
         func makeUIView(context: Context) -> UIView {
-            _VisualLayer(for: player)
+            _VisualLayer(for: player, onAppear: self.onAppear)
         }
         
         func updateUIView(_ uiView: UIView, context: Context) {}
@@ -45,18 +53,26 @@ extension VideoPlayer {
             layer as! AVPlayerLayer
         }
         
-        var player: AVPlayer {
+        private var player: AVPlayer {
             get { playerLayer.player! }
             set { playerLayer.player = newValue }
         }
         
-        init(for player: AVPlayer) {
+        private var onAppear: ((AVPlayerLayer) -> ())?
+        
+        init(for player: AVPlayer, onAppear: ((AVPlayerLayer) -> ())?) {
             super.init(frame: .zero)
             self.player = player
+            self.onAppear = onAppear
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func didMoveToSuperview() {
+            super.didMoveToSuperview()
+            onAppear?(playerLayer)
         }
     }
 }

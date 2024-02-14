@@ -29,6 +29,10 @@ struct MovieView: View {
                 
             case .loaded(let player):
                 VideoPlayer(player: player)
+                    .onLayerAppearance(perform: { playerLayer in
+                        debugPrint("On AVLayer appearance: \(playerLayer).")
+                        // TODO: Initiate the PiP object for current layer.
+                    })
                     .frame(width: 350, height: 200)
                     .aspectRatio(contentMode: .fit)
                     .padding()
