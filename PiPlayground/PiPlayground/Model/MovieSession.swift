@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import AVKit
 import Combine
 
 final class MovieSession: ObservableObject {
@@ -56,5 +57,40 @@ extension MovieSession {
         case loading
         case loaded(player: AVPlayer)
         case failed
+    }
+}
+
+extension MovieSession {
+    final class PictureInPicture {
+        static let isSupportedByCurrentDevice = AVPictureInPictureController.isPictureInPictureSupported()
+        
+        // TODO: Make this property non-optional.
+        private var pipController: AVPictureInPictureController?
+        private(set) var state: State
+        
+        init?(player: AVPlayerLayer) {
+            guard Self.isSupportedByCurrentDevice else {
+                return nil
+            }
+            
+            // TODO: Create pipController and make it ready.
+            // TODO: Mark this initializer as being async.
+            state = .inactive
+        }
+        
+        func start() {
+            pipController?.startPictureInPicture()
+        }
+        
+        func stop() {
+            pipController?.stopPictureInPicture()
+        }
+        
+        // TODO: Listen to the pipController delegate to determine status.
+        
+        enum State {
+            case active
+            case inactive
+        }
     }
 }
