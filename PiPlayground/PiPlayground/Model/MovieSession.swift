@@ -57,7 +57,7 @@ final class MovieSession: ObservableObject {
         guard pictureInPicture == nil else {
             return
         }
-        pictureInPicture = PictureInPicture(playerLayer: layer)
+        //pictureInPicture = PictureInPicture(playerLayer: layer)
         // TODO: Inform the view that pip is now possible.
         // TODO: Inform the view of updates to pip state.
     }

@@ -14,11 +14,10 @@ final class PictureInPicture: NSObject {
     
     private(set) var state: State
     private let pipController: AVPictureInPictureController?
-    private var isPipPossibleCancellable: AnyCancellable?
     
-    init(playerLayer: AVPlayerLayer) {
-        // TODO: Mark this initializer as being async.
-        guard Self.isSupportedByCurrentDevice else {
+    init(playerLayer: AVPlayerLayer) async {
+        guard Self.isSupportedByCurrentDevice,
+              let _pipController = AVPictureInPictureController(playerLayer: playerLayer) else {
             debugPrint("Pip is unsupported.")
             state = .unsupported
             pipController = nil
@@ -26,20 +25,15 @@ final class PictureInPicture: NSObject {
             return
         }
         
-        state = .unsupported
-        pipController = AVPictureInPictureController(playerLayer: playerLayer)
+        pipController = _pipController
+        
+        if await _pipController.isPipPossible {
+            state = .inactive
+        } else {
+            state = .unsupported
+        }
         
         super.init()
-        
-        isPipPossibleCancellable = pipController?
-            .publisher(for: \.isPictureInPicturePossible)
-            .filter { $0 == true }
-            // TODO: Implement a timeout in this method.
-            .sink { [weak self, weak pipController] isPossible in
-                debugPrint("Pip is possible.")
-                self?.state = .inactive
-                pipController?.delegate = self
-            }
     }
     
     func start() {
@@ -82,4 +76,29 @@ extension PictureInPicture: AVPictureInPictureControllerDelegate {
     }
     
     // TODO: Implement PiP restoration.
+}
+
+extension AVPictureInPictureController {
+    var isPipPossible: Bool {
+        get async {
+            return await withCheckedContinuation { continuation in
+                var isPipPossibleCancellable: AnyCancellable?
+                isPipPossibleCancellable = publisher(for: \.isPictureInPicturePossible)
+                    .filter { $0 == true }
+                    .timeout(1, scheduler: RunLoop.main)
+                    .sink(receiveCompletion: { [weak isPipPossibleCancellable] completion in
+                        switch completion {
+                        case .failure:
+                            continuation.resume(returning: false)
+                        default: break
+                        }
+                        
+                        isPipPossibleCancellable?.cancel()
+                    }, receiveValue: { _ in
+                        debugPrint("Pip is possible.")
+                        continuation.resume(returning: true)
+                    })
+            }
+        }
+    }
 }
