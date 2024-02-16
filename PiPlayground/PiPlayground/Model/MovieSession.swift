@@ -12,8 +12,9 @@ import Combine
 // TODO: Update this class to use the new observation framework.
 final class MovieSession: ObservableObject {
     let movie: Movie
-    private(set) var pictureInPicture: PictureInPicture?
     private var player: AVPlayer?
+    private var playerLayer: AVPlayerLayer?
+    private var pictureInPicture: PictureInPicture?
     
     @Published
     private(set) var state: State = .idle
@@ -27,16 +28,29 @@ final class MovieSession: ObservableObject {
         state = .loading
         
         debugPrint("Loading player for asset(\(movie.url)).")
-        let player = AVPlayer(url: movie.url)
         
         do {
-            guard let isPlayable = try await player.currentItem?.asset.load(.isPlayable), isPlayable else {
+            let player = AVPlayer(url: movie.url)
+            self.player = player
+            
+            guard let isPlayable = try await player.currentItem?.asset.load(.isPlayable),
+                  isPlayable else {
                 debugPrint("Asset is not playable.")
                 state = .failed
                 return
             }
-            self.player = player
-            state = .loaded(player: player)
+            
+            let playerLayer = AVPlayerLayer(player: player)
+            self.playerLayer = playerLayer
+            
+            let pictureInPicture = await PictureInPicture(playerLayer: playerLayer)
+            self.pictureInPicture = pictureInPicture
+            
+            state = .loaded(
+                player: player,
+                playerLayer: playerLayer,
+                pictureInPicture: pictureInPicture
+            )
         } catch {
             debugPrint("Asset couldn't be loaded -> \(error).")
             state = .failed
@@ -51,23 +65,13 @@ final class MovieSession: ObservableObject {
             debugPrint("Couldn't start playback. Player is not ready.")
         }
     }
-    
-    func setupPictureInPicture(using layer: AVPlayerLayer) {
-        debugPrint("Pip is being setup.")
-        guard pictureInPicture == nil else {
-            return
-        }
-        //pictureInPicture = PictureInPicture(playerLayer: layer)
-        // TODO: Inform the view that pip is now possible.
-        // TODO: Inform the view of updates to pip state.
-    }
 }
 
 extension MovieSession {
     enum State {
         case idle
         case loading
-        case loaded(player: AVPlayer)
+        case loaded(player: AVPlayer, playerLayer: AVPlayerLayer, pictureInPicture: PictureInPicture)
         case failed
     }
 }

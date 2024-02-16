@@ -27,12 +27,8 @@ struct MovieView: View {
                 
                 Spacer()
                 
-            case .loaded(let player):
+            case .loaded(let player, let playerLayer, let pictureInPicture):
                 VideoPlayer(player: player)
-                    .onLayerAppearance(perform: { playerLayer in
-                        debugPrint("On AVPlayerLayer appearance: \(playerLayer).")
-                        movieSession.setupPictureInPicture(using: playerLayer)
-                    })
                     .frame(width: 350, height: 200)
                     .aspectRatio(contentMode: .fit)
                     .padding()
@@ -42,7 +38,7 @@ struct MovieView: View {
                 // TODO: Use the PiP button provided by Apple.
                 // TODO: Update button state based on pip state.
                 Button("Start picture in picture") {
-                    movieSession.pictureInPicture?.start()
+                    pictureInPicture.start()
                 }
                 
             case .failed:
