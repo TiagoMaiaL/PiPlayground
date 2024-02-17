@@ -27,8 +27,8 @@ struct MovieView: View {
                 
                 Spacer()
                 
-            case .loaded(let player, let playerLayer, let pictureInPicture):
-                VideoPlayer(player: player)
+            case .loaded(let playerLayer, let pictureInPicture):
+                VideoPlayer(playerLayer: playerLayer)
                     .frame(width: 350, height: 200)
                     .aspectRatio(contentMode: .fit)
                     .padding()

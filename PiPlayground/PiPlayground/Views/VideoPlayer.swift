@@ -6,81 +6,63 @@
 //
 
 import SwiftUI
-import AVFoundation
+import AVKit
 
 struct VideoPlayer: View {
-    weak var player: AVPlayer!
-    private var onLayerAppearanceAction: ((AVPlayerLayer) -> ())?
+    let playerLayer: AVPlayerLayer
     
-    init(player: AVPlayer, onLayerApperance onLayerAppearanceAction: ((AVPlayerLayer) -> ())? = nil) {
-        self.player = player
-        self.onLayerAppearanceAction = onLayerAppearanceAction
+    init(playerLayer: AVPlayerLayer) {
+        self.playerLayer = playerLayer
     }
     
     var body: some View {
-        VisualLayer(for: player, onAppear: onLayerAppearanceAction)
-    }
-    
-    func onLayerAppearance(perform action: @escaping (AVPlayerLayer) -> ()) -> Self {
-        VideoPlayer(player: self.player, onLayerApperance: action)
+        VisualLayer(avLayer: playerLayer)
     }
 }
 
 extension VideoPlayer {
     private struct VisualLayer: UIViewRepresentable {
-        private weak var player: AVPlayer!
-        private var onAppear: ((AVPlayerLayer) -> ())?
+        let playerLayer: AVPlayerLayer
         
-        init(for player: AVPlayer, onAppear: ((AVPlayerLayer) -> ())?) {
-            self.player = player
-            self.onAppear = onAppear
+        init(avLayer playerLayer: AVPlayerLayer) {
+            self.playerLayer = playerLayer
         }
         
         func makeUIView(context: Context) -> UIView {
-            _VisualLayer(for: player, onAppear: self.onAppear)
+            _VisualLayer(avLayer: playerLayer)
         }
         
         func updateUIView(_ uiView: UIView, context: Context) {}
     }
     
     private final class _VisualLayer: UIView {
-        // https://developer.apple.com/documentation/avfoundation/avplayerlayer
-        override static var layerClass: AnyClass {
-            AVPlayerLayer.self
-        }
+        private let playerLayer: AVPlayerLayer
         
-        private var playerLayer: AVPlayerLayer {
-            layer as! AVPlayerLayer
-        }
-        
-        private var player: AVPlayer {
-            get { playerLayer.player! }
-            set { playerLayer.player = newValue }
-        }
-        
-        private var onAppear: ((AVPlayerLayer) -> ())?
-        
-        init(for player: AVPlayer, onAppear: ((AVPlayerLayer) -> ())?) {
+        init(avLayer playerLayer: AVPlayerLayer) {
+            self.playerLayer = playerLayer
             super.init(frame: .zero)
-            self.player = player
-            self.onAppear = onAppear
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
         
-        override func didMoveToSuperview() {
-            super.didMoveToSuperview()
-            onAppear?(playerLayer)
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            
+            if playerLayer.superlayer == nil {
+                layer.addSublayer(playerLayer)
+            }
+            playerLayer.frame = layer.bounds
         }
     }
 }
 
 #Preview {
-    VideoPlayer(
-        player: AVPlayer(
-            url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!
-        )
+    let player = AVPlayer(
+        url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!
+    )
+    return VideoPlayer(
+        playerLayer: AVPlayerLayer(player: player)
     )
 }

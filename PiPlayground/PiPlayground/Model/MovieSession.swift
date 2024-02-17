@@ -37,6 +37,9 @@ final class MovieSession: ObservableObject {
                   isPlayable else {
                 debugPrint("Asset is not playable.")
                 state = .failed
+                self.player = nil
+                playerLayer = nil
+                pictureInPicture = nil
                 return
             }
             
@@ -46,14 +49,13 @@ final class MovieSession: ObservableObject {
             let pictureInPicture = await PictureInPicture(playerLayer: playerLayer)
             self.pictureInPicture = pictureInPicture
             
-            state = .loaded(
-                player: player,
-                playerLayer: playerLayer,
-                pictureInPicture: pictureInPicture
-            )
+            state = .loaded(playerLayer: playerLayer, pictureInPicture: pictureInPicture)
         } catch {
             debugPrint("Asset couldn't be loaded -> \(error).")
             state = .failed
+            player = nil
+            playerLayer = nil
+            pictureInPicture = nil
         }
     }
     
@@ -71,7 +73,7 @@ extension MovieSession {
     enum State {
         case idle
         case loading
-        case loaded(player: AVPlayer, playerLayer: AVPlayerLayer, pictureInPicture: PictureInPicture)
+        case loaded(playerLayer: AVPlayerLayer, pictureInPicture: PictureInPicture)
         case failed
     }
 }

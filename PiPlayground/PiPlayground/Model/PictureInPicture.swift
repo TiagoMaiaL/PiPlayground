@@ -30,6 +30,7 @@ final class PictureInPicture: NSObject {
         if await _pipController.isPipPossible {
             state = .inactive
         } else {
+            debugPrint("Pip is unsupported.")
             state = .unsupported
         }
         
