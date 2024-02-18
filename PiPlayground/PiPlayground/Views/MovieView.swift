@@ -36,10 +36,12 @@ struct MovieView: View {
                 Spacer()
                 
                 // TODO: Use the PiP button provided by Apple.
-                // TODO: Update button state based on pip state.
                 Button("Start picture in picture") {
                     pictureInPicture.start()
                 }
+                .disabled(!pictureInPicture.canBeStarted)
+                .opacity(pictureInPicture.canBeStarted ? 1 : 0.5)
+                .padding(.bottom)
                 
             case .failed:
                 Text("There was an error loading the player.")

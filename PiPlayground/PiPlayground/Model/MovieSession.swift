@@ -15,6 +15,7 @@ final class MovieSession: ObservableObject {
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var pictureInPicture: PictureInPicture?
+    private var pictureInPictureCancellable: AnyCancellable?
     
     @Published
     private(set) var state: State = .idle
@@ -37,9 +38,7 @@ final class MovieSession: ObservableObject {
                   isPlayable else {
                 debugPrint("Asset is not playable.")
                 state = .failed
-                self.player = nil
-                playerLayer = nil
-                pictureInPicture = nil
+                clearResources()
                 return
             }
             
@@ -47,15 +46,14 @@ final class MovieSession: ObservableObject {
             self.playerLayer = playerLayer
             
             let pictureInPicture = await PictureInPicture(playerLayer: playerLayer)
+            bindToUpdates(in: pictureInPicture)
             self.pictureInPicture = pictureInPicture
             
             state = .loaded(playerLayer: playerLayer, pictureInPicture: pictureInPicture)
         } catch {
             debugPrint("Asset couldn't be loaded -> \(error).")
             state = .failed
-            player = nil
-            playerLayer = nil
-            pictureInPicture = nil
+            clearResources()
         }
     }
     
@@ -70,6 +68,22 @@ final class MovieSession: ObservableObject {
     
     func stopPlayback() {
         player?.pause()
+    }
+    
+    private func bindToUpdates(in pictureInPicture: PictureInPicture) {
+        pictureInPictureCancellable = pictureInPicture
+            .$state
+            .map { _ in () }
+            .sink { [weak self] in
+                self?.objectWillChange.send()
+            }
+    }
+    
+    private func clearResources() {
+        player = nil
+        playerLayer = nil
+        pictureInPicture = nil
+        pictureInPictureCancellable = nil
     }
 }
 

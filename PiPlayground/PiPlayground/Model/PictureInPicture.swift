@@ -12,8 +12,13 @@ import Combine
 final class PictureInPicture: NSObject {
     static let isSupportedByCurrentDevice = AVPictureInPictureController.isPictureInPictureSupported()
     
+    @Published
     private(set) var state: State
     private let pipController: AVPictureInPictureController?
+    
+    var canBeStarted: Bool {
+        state == .inactive
+    }
     
     init(playerLayer: AVPlayerLayer) async {
         guard Self.isSupportedByCurrentDevice,
@@ -35,6 +40,8 @@ final class PictureInPicture: NSObject {
         }
         
         super.init()
+        
+        pipController?.delegate = self
     }
     
     func start() {
