@@ -16,4 +16,18 @@ final class Model: ObservableObject {
         activeMovieSession = session
         return session
     }
+    
+    func clearCurrentSession() {
+        guard let activeMovieSession else { return }
+        
+        switch activeMovieSession.state {
+        case .loaded(_, let pictureInPicture) where pictureInPicture.state == .active:
+            break
+            
+        default:
+            debugPrint("Stopping playback.")
+            activeMovieSession.stopPlayback()
+            self.activeMovieSession = nil
+        }
+    }
 }

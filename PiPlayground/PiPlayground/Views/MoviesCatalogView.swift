@@ -19,6 +19,9 @@ struct MoviesCatalogView: View {
                     .navigationDestination(for: Movie.self) { movie in
                         MovieView(movieSession: model.createSession(for: movie))
                     }
+                    .onAppear {
+                        model.clearCurrentSession()
+                    }
             }
         }
     }

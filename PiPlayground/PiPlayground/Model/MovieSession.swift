@@ -67,6 +67,10 @@ final class MovieSession: ObservableObject {
             debugPrint("Couldn't start playback. Player is not ready.")
         }
     }
+    
+    func stopPlayback() {
+        player?.pause()
+    }
 }
 
 extension MovieSession {
