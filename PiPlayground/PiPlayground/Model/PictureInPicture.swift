@@ -83,18 +83,21 @@ extension AVPictureInPictureController {
     var isPipPossible: Bool {
         get async {
             return await withCheckedContinuation { continuation in
-                var isPipPossibleCancellable: AnyCancellable?
-                isPipPossibleCancellable = publisher(for: \.isPictureInPicturePossible)
-                    .filter { $0 == true }
-                    .timeout(1, scheduler: RunLoop.main)
-                    .sink(receiveCompletion: { [weak isPipPossibleCancellable] completion in
+                var cancellable: AnyCancellable!
+                cancellable = publisher(for: \.isPictureInPicturePossible)
+                    .filter { $0 == false }
+                    .receive(on: RunLoop.main)
+                    .timeout(.seconds(1), scheduler: RunLoop.main)
+                    .removeDuplicates()
+                    .sink(receiveCompletion: { completion in
                         switch completion {
                         case .failure:
                             continuation.resume(returning: false)
-                        default: break
+                        default:
+                            break
                         }
                         
-                        isPipPossibleCancellable?.cancel()
+                        cancellable?.cancel()
                     }, receiveValue: { _ in
                         debugPrint("Pip is possible.")
                         continuation.resume(returning: true)
