@@ -14,7 +14,10 @@ final class PictureInPicture: NSObject {
     
     @Published
     private(set) var state: State
-    private let pipController: AVPictureInPictureController?
+    
+    var playbackRestorer: PictureInPicturePlaybackRestorer?
+    
+    private var pipController: AVPictureInPictureController?
     
     var canBeStarted: Bool {
         state == .inactive
@@ -25,7 +28,6 @@ final class PictureInPicture: NSObject {
               let _pipController = AVPictureInPictureController(playerLayer: playerLayer) else {
             debugPrint("Pip is unsupported.")
             state = .unsupported
-            pipController = nil
             super.init()
             return
         }
@@ -83,7 +85,14 @@ extension PictureInPicture: AVPictureInPictureControllerDelegate {
         state = .unsupported
     }
     
-    // TODO: Implement PiP restoration.
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController) async -> Bool {
+        guard let playbackRestorer else { return false }
+        return await playbackRestorer.restore()
+    }
+}
+
+protocol PictureInPicturePlaybackRestorer {
+    func restore() async -> Bool
 }
 
 extension AVPictureInPictureController {

@@ -11,16 +11,28 @@ struct MoviesCatalogView: View {
     @ObservedObject
     var model: Model
     
+    @State
+    private var pipRestoreContinuation: CheckedContinuation<Bool, Never>?
+    
+    @State
+    private var presentedMovies = [Movie]()
+    
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $presentedMovies) {
             VStack(spacing: 0) {
                 header
                 movieCatalog
                     .navigationDestination(for: Movie.self) { movie in
-                        MovieView(movieSession: model.createSession(for: movie))
+                        MovieView(movieSession: model.session(for: movie, usingRestorer: self))
+                            .onAppear {
+                                pipRestoreContinuation?.resume(returning: true)
+                                pipRestoreContinuation = nil
+                            }
                     }
                     .onAppear {
-                        model.clearCurrentSession()
+                        if !model.hasActiveMovieSession {
+                            model.clearCurrentMovieSession()
+                        }
                     }
             }
         }
@@ -62,6 +74,19 @@ struct MoviesCatalogView: View {
                 .padding(.vertical)
                 Divider()
             }
+        }
+    }
+}
+
+extension MoviesCatalogView: PictureInPicturePlaybackRestorer {
+    func restore() async -> Bool {
+        return await withCheckedContinuation { continuation in
+            guard model.hasActiveMovieSession, let activeSession = model.currentMovieSession else {
+                continuation.resume(returning: false)
+                return
+            }
+            pipRestoreContinuation = continuation
+            presentedMovies = [activeSession.movie]
         }
     }
 }

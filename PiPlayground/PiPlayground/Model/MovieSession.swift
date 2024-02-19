@@ -16,6 +16,7 @@ final class MovieSession: ObservableObject {
     private var playerLayer: AVPlayerLayer?
     private var pictureInPicture: PictureInPicture?
     private var pictureInPictureCancellable: AnyCancellable?
+    var playbackRestorer: PictureInPicturePlaybackRestorer?
     
     @Published
     private(set) var state: State = .idle
@@ -47,6 +48,7 @@ final class MovieSession: ObservableObject {
             
             let pictureInPicture = await PictureInPicture(playerLayer: playerLayer)
             bindToUpdates(in: pictureInPicture)
+            pictureInPicture.playbackRestorer = playbackRestorer
             self.pictureInPicture = pictureInPicture
             
             state = .loaded(playerLayer: playerLayer, pictureInPicture: pictureInPicture)
@@ -93,5 +95,15 @@ extension MovieSession {
         case loading
         case loaded(playerLayer: AVPlayerLayer, pictureInPicture: PictureInPicture)
         case failed
+    }
+}
+
+extension MovieSession: Hashable {
+    static func == (lhs: MovieSession, rhs: MovieSession) -> Bool {
+        lhs.movie == rhs.movie
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(movie.hashValue)
     }
 }

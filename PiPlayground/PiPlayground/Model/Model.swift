@@ -9,25 +9,36 @@ import Foundation
 
 final class Model: ObservableObject {
     let movieCatalog: MovieCatalog = .default
-    private(set) var activeMovieSession: MovieSession?
     
-    func createSession(for movie: Movie) -> MovieSession {
-        let session = MovieSession(movie: movie)
-        activeMovieSession = session
-        return session
-    }
+    private(set) var currentMovieSession: MovieSession?
     
-    func clearCurrentSession() {
-        guard let activeMovieSession else { return }
+    var hasActiveMovieSession: Bool {
+        guard let currentMovieSession else {
+            return false
+        }
         
-        switch activeMovieSession.state {
-        case .loaded(_, let pictureInPicture) where pictureInPicture.state == .active:
-            break
+        switch currentMovieSession.state {
+        case .loaded(_, let pictureInPicture):
+            return pictureInPicture.state == .active
             
         default:
-            debugPrint("Stopping playback.")
-            activeMovieSession.stopPlayback()
-            self.activeMovieSession = nil
+            return false
         }
+    }
+    
+    func session(for movie: Movie, usingRestorer playbackRestorer: PictureInPicturePlaybackRestorer? = nil) -> MovieSession {
+        if let currentMovieSession, currentMovieSession.movie == movie {
+            return currentMovieSession
+        } else {
+            let session = MovieSession(movie: movie)
+            session.playbackRestorer = playbackRestorer
+            currentMovieSession = session
+            return session
+        }
+    }
+    
+    func clearCurrentMovieSession() {
+        currentMovieSession?.stopPlayback()
+        currentMovieSession = nil
     }
 }
