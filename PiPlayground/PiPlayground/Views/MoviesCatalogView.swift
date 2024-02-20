@@ -51,13 +51,10 @@ struct MoviesCatalogView: View {
     }
     
     private var movieCatalog: some View {
-        ScrollView {
-            // TODO: Replace ForEach with a List.
-            ForEach(model.movieCatalog.movies) { movie in
-                catalogItem(for: movie)
-            }
-            .padding(.horizontal)
+        List(model.movieCatalog.movies) { movie in
+            catalogItem(for: movie)
         }
+        .padding(.horizontal)
     }
     
     private func catalogItem(for movie: Movie) -> some View {
@@ -69,10 +66,8 @@ struct MoviesCatalogView: View {
                         Text(movie.subtitle)
                     }
                     Spacer()
-                    Image(systemName: "chevron.forward")
                 }
                 .padding(.vertical)
-                Divider()
             }
         }
     }
