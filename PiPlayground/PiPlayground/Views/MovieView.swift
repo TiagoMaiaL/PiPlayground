@@ -35,13 +35,7 @@ struct MovieView: View {
                 
                 Spacer()
                 
-                // TODO: Use the PiP button provided by Apple.
-                Button("Start picture in picture") {
-                    pictureInPicture.start()
-                }
-                .disabled(!pictureInPicture.canBeStarted)
-                .opacity(pictureInPicture.canBeStarted ? 1 : 0.5)
-                .padding(.bottom)
+                button(for: pictureInPicture)
                 
             case .failed:
                 Text("There was an error loading the player.")
@@ -57,6 +51,37 @@ struct MovieView: View {
                 break
             }
         }
+    }
+    
+    private func button(for pictureInPicture: PictureInPicture) -> some View {
+        Button {
+            switch pictureInPicture.state {
+            case .inactive:
+                pictureInPicture.start()
+                
+            case .active:
+                pictureInPicture.stop()
+                
+            default:
+                break
+            }
+        } label: {
+            HStack {
+                switch pictureInPicture.state {
+                case .unsupported, .inactive:
+                    Image(uiImage: AVPictureInPictureController.pictureInPictureButtonStartImage)
+                    Text("Start Picture in Picture")
+                    
+                case .active:
+                    Image(uiImage: AVPictureInPictureController.pictureInPictureButtonStopImage)
+                    Text("Stop Picture in Picture")
+                }
+                
+            }
+        }
+        .disabled(pictureInPicture.state == .unsupported)
+        .opacity(pictureInPicture.state == .unsupported ? 0.5 : 1)
+        .padding(.bottom)
     }
 }
 
