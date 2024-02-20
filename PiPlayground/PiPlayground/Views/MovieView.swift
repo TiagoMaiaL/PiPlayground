@@ -9,7 +9,6 @@ import AVKit
 import SwiftUI
 
 struct MovieView: View {
-    @ObservedObject
     var movieSession: MovieSession
     
     var body: some View {

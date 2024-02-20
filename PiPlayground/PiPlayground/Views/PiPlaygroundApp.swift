@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct PiPlaygroundApp: App {
-    @StateObject
+    @State
     var model = Model()
     
     var body: some Scene {

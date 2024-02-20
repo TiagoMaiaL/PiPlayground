@@ -7,18 +7,14 @@
 
 import AVFoundation
 import AVKit
-import Combine
 
-// TODO: Update this class to use the new observation framework.
-final class MovieSession: ObservableObject {
+@Observable final class MovieSession {
     let movie: Movie
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var pictureInPicture: PictureInPicture?
-    private var pictureInPictureCancellable: AnyCancellable?
     var playbackRestorer: PictureInPicturePlaybackRestorer?
     
-    @Published
     private(set) var state: State = .idle
     
     init(movie: Movie) {
@@ -47,7 +43,6 @@ final class MovieSession: ObservableObject {
             self.playerLayer = playerLayer
             
             let pictureInPicture = await PictureInPicture(playerLayer: playerLayer)
-            bindToUpdates(in: pictureInPicture)
             pictureInPicture.playbackRestorer = playbackRestorer
             self.pictureInPicture = pictureInPicture
             
@@ -72,20 +67,10 @@ final class MovieSession: ObservableObject {
         player?.pause()
     }
     
-    private func bindToUpdates(in pictureInPicture: PictureInPicture) {
-        pictureInPictureCancellable = pictureInPicture
-            .$state
-            .map { _ in () }
-            .sink { [weak self] in
-                self?.objectWillChange.send()
-            }
-    }
-    
     private func clearResources() {
         player = nil
         playerLayer = nil
         pictureInPicture = nil
-        pictureInPictureCancellable = nil
     }
 }
 

@@ -9,10 +9,9 @@ import AVKit
 import AVFoundation
 import Combine
 
-final class PictureInPicture: NSObject {
+@Observable final class PictureInPicture: NSObject {
     static let isSupportedByCurrentDevice = AVPictureInPictureController.isPictureInPictureSupported()
     
-    @Published
     private(set) var state: State
     
     var playbackRestorer: PictureInPicturePlaybackRestorer?
