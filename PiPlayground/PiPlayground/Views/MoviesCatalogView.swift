@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MoviesCatalogView: View {
-    @ObservedObject
     var model: Model
     
     @State

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Model: ObservableObject {
+@Observable final class Model {
     let movieCatalog: MovieCatalog = .default
     
     private(set) var currentMovieSession: MovieSession?
