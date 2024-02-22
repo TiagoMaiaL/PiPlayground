@@ -81,6 +81,6 @@ func pictureInPictureController(_ pictureInPictureController: AVPictureInPicture
 ```
 
 ### Limitations
-- Lack of controls customization. The only documented method for controlling some of the controls is when you set `requiresLinearPlayback`
+- Lack of controls customization. The only documented method for customizing some of the controls is when you set `requiresLinearPlayback`
 - Other customization options are described in [this repository](https://github.com/CaiWanFeng/PiP) (although they are not documented by Apple) 
 - PiP doesn't work on iPhone simulators
