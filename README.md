@@ -11,7 +11,7 @@ A simple iOS app exploring how to implement Picture in Picture in a custom playe
 
 ## Screenshot
 
- TODO
+<img src="./screenshots/PiPlayground.gif" width=500px />
 
 ## PiP: Pragmatic Information
 
