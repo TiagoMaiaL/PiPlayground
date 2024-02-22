@@ -35,6 +35,7 @@ import Combine
         
         if await _pipController.isPipPossible {
             state = .inactive
+            _pipController.canStartPictureInPictureAutomaticallyFromInline = true
         } else {
             debugPrint("Pip is unsupported.")
             state = .unsupported
