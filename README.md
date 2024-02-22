@@ -79,6 +79,10 @@ func pictureInPictureController(_ pictureInPictureController: AVPictureInPicture
 // 2. MovieSession.swift (for playback and pip creation)
 // 3. MoviesCatalogView.swift (for playback context restoration)
 ```
+- Automatically start pip when application enters background:
+```swift
+pipController.canStartPictureInPictureAutomaticallyFromInline = true
+```
 
 ### Limitations
 - Lack of controls customization. The only documented method for customizing some of the controls is when you set `requiresLinearPlayback`
