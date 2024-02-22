@@ -19,11 +19,11 @@ A simple iOS app exploring how to implement Picture in Picture in a custom playe
 - Allows users to watch a video in a little floating window, controlled by iOS
 - Users then are free to navigate in the app or OS itself (open different apps, for example)
 - Users are able to restore playback, allowing them to return to the original playback context
-- It's part of the AVKit framework (not AVFoundation)
-- AVKit is a framework containing UI facilities for visualization of media playback 
+- It's part of the `AVKit` framework
+- `AVKit` contains UI facilities for visualization of media playback 
 
 ### How to make it work
-- You'll be interfacing with the `AVPictureInPictureController` class (make sure to check `PictureInPicture.swift` in this project)
+- You'll be interfacing with the `AVPictureInPictureController` class (check `PictureInPicture.swift` in this project)
 - Use an `AVPlayerLayer` to instantiate it:
 ```swift
 AVPictureInPictureController(playerLayer: playerLayer)
@@ -54,7 +54,7 @@ publisher(for: \.isPictureInPicturePossible)
     })
 ```
 - Once pip is possible, use `startPictureInPicture()` and `stopPictureInPicture()` methods to control it
-- Use its delegate (`AVPictureInPictureControllerDelegate`) to check pip state:
+- Use delegation (`AVPictureInPictureControllerDelegate`) to receive its state:
 ```swift
 func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
     debugPrint("Pip is active.")
@@ -68,13 +68,13 @@ func pictureInPictureController(_ pictureInPictureController: AVPictureInPicture
     debugPrint("Pip error: \(error)")
 }
 ```
-- PiP provides a way for you to restore the app UI, so users can navigate back to the playback context:
+- PiP provides a way for you to restore the app UI, so users can navigate back to the original playback context:
 ```swift
 func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController) async -> Bool {
     guard let playbackRestorer else { return false }
     return await playbackRestorer.restore()
 }
-// Make sure to check:
+// Check:
 // 1. PictureInPicture.swift (for pip encapsulation and restoration definitions)
 // 2. MovieSession.swift (for playback and pip creation)
 // 3. MoviesCatalogView.swift (for playback context restoration)
