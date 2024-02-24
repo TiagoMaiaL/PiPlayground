@@ -98,6 +98,7 @@ protocol PictureInPicturePlaybackRestorer {
 extension AVPictureInPictureController {
     var isPipPossible: Bool {
         get async {
+            var wasContinuationResumed = false
             return await withCheckedContinuation { continuation in
                 var cancellable: AnyCancellable!
                 cancellable = publisher(for: \.isPictureInPicturePossible)
@@ -105,16 +106,16 @@ extension AVPictureInPictureController {
                     .receive(on: RunLoop.main)
                     .timeout(.seconds(1), scheduler: RunLoop.main)
                     .removeDuplicates()
-                    .sink(receiveCompletion: { completion in
-                        switch completion {
-                        case .failure:
+                    .sink(receiveCompletion: { _ in
+                        if !wasContinuationResumed {
                             continuation.resume(returning: false)
-                        default:
-                            break
+                            wasContinuationResumed = true
                         }
-                        
                         cancellable?.cancel()
                     }, receiveValue: { _ in
+                        guard wasContinuationResumed == false else { return }
+                        wasContinuationResumed = true
+                        
                         debugPrint("Pip is possible.")
                         continuation.resume(returning: true)
                     })
