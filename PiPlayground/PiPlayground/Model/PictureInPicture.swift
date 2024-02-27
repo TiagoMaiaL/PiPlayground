@@ -8,16 +8,14 @@
 import AVKit
 import AVFoundation
 import Combine
+import OSLog
 
 @Observable final class PictureInPicture: NSObject {
     static let isSupportedByCurrentDevice = AVPictureInPictureController.isPictureInPictureSupported()
-    
     private(set) var state: State
-    
-    var playbackRestorer: PictureInPicturePlaybackRestorer?
-    
     private var pipController: AVPictureInPictureController?
-    
+    private let logger = Logger(subsystem: "com.PiPlayground", category: "PiP")
+    var playbackRestorer: PictureInPicturePlaybackRestorer?
     var canBeStarted: Bool {
         state == .inactive
     }
@@ -25,7 +23,7 @@ import Combine
     init(playerLayer: AVPlayerLayer) async {
         guard Self.isSupportedByCurrentDevice,
               let _pipController = AVPictureInPictureController(playerLayer: playerLayer) else {
-            debugPrint("Pip is unsupported.")
+            logger.notice("Pip is unsupported")
             state = .unsupported
             super.init()
             return
@@ -36,8 +34,9 @@ import Combine
         if await _pipController.isPipPossible {
             state = .inactive
             _pipController.canStartPictureInPictureAutomaticallyFromInline = true
+            logger.debug("Pip is possible")
         } else {
-            debugPrint("Pip is unsupported.")
+            logger.notice("Pip is not possible")
             state = .unsupported
         }
         
@@ -50,7 +49,7 @@ import Combine
         guard state != .unsupported else {
             return
         }
-        debugPrint("Pip starting.")
+        logger.debug("Pip starting")
         pipController?.startPictureInPicture()
     }
     
@@ -58,7 +57,7 @@ import Combine
         guard state != .unsupported else {
             return
         }
-        debugPrint("Pip stopping.")
+        logger.debug("Pip stopping")
         pipController?.stopPictureInPicture()
     }
     
@@ -71,17 +70,17 @@ import Combine
 
 extension PictureInPicture: AVPictureInPictureControllerDelegate {
     func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        debugPrint("Pip is active.")
+        logger.debug("Pip is active")
         state = .active
     }
     
     func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        debugPrint("Pip is inactive.")
+        logger.debug("Pip is inactive")
         state = .inactive
     }
     
     func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
-        debugPrint("Pip error: \(error)")
+        logger.error("Pip error: \(error)")
         state = .unsupported
     }
     
@@ -115,8 +114,6 @@ extension AVPictureInPictureController {
                     }, receiveValue: { _ in
                         guard wasContinuationResumed == false else { return }
                         wasContinuationResumed = true
-                        
-                        debugPrint("Pip is possible.")
                         continuation.resume(returning: true)
                     })
             }

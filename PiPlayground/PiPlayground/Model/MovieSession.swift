@@ -7,13 +7,15 @@
 
 import AVFoundation
 import AVKit
+import OSLog
 
 @Observable final class MovieSession {
     let movie: Movie
+    var playbackRestorer: PictureInPicturePlaybackRestorer?
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var pictureInPicture: PictureInPicture?
-    var playbackRestorer: PictureInPicturePlaybackRestorer?
+    private let logger = Logger(subsystem: "com.PipPlayground", category: "Movie Session")
     
     private(set) var state: State = .idle
     
@@ -25,7 +27,7 @@ import AVKit
     func loadVideo() async {
         state = .loading
         
-        debugPrint("Loading player for asset(\(movie.url)).")
+        logger.debug("Loading player for movie(\(self.movie.url))")
         
         do {
             let player = AVPlayer(url: movie.url)
@@ -33,7 +35,7 @@ import AVKit
             
             guard let isPlayable = try await player.currentItem?.asset.load(.isPlayable),
                   isPlayable else {
-                debugPrint("Asset is not playable.")
+                logger.error("Asset is not playable")
                 state = .failed
                 clearResources()
                 return
@@ -48,7 +50,7 @@ import AVKit
             
             state = .loaded(playerLayer: playerLayer, pictureInPicture: pictureInPicture)
         } catch {
-            debugPrint("Asset couldn't be loaded -> \(error).")
+            logger.error("Asset couldn't be loaded -> \(error)")
             state = .failed
             clearResources()
         }
@@ -56,10 +58,10 @@ import AVKit
     
     func startPlayback() {
         if player?.status == .readyToPlay {
-            debugPrint("Starting playback.")
+            logger.debug("Starting playback")
             player?.play()
         } else {
-            debugPrint("Couldn't start playback. Player is not ready.")
+            logger.debug("Couldn't start playback. Player is not ready")
         }
     }
     
