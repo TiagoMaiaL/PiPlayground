@@ -27,7 +27,7 @@ import OSLog
     func loadVideo() async {
         state = .loading
         
-        logger.debug("Loading player for movie(\(self.movie.url))")
+        logger.debug("Loading player for \(self.movie)")
         
         do {
             let player = AVPlayer(url: movie.url)
@@ -35,7 +35,7 @@ import OSLog
             
             guard let isPlayable = try await player.currentItem?.asset.load(.isPlayable),
                   isPlayable else {
-                logger.error("Asset is not playable")
+                logger.error("Mvoie asset is not playable: \(self.movie)")
                 state = .failed
                 clearResources()
                 return
@@ -50,7 +50,7 @@ import OSLog
             
             state = .loaded(playerLayer: playerLayer, pictureInPicture: pictureInPicture)
         } catch {
-            logger.error("Asset couldn't be loaded -> \(error)")
+            logger.error("Movie asset could not be loaded: \(error), movie: \(self.movie)")
             state = .failed
             clearResources()
         }
@@ -58,7 +58,7 @@ import OSLog
     
     func startPlayback() {
         if player?.status == .readyToPlay {
-            logger.debug("Starting playback")
+            logger.debug("Starting movie playback")
             player?.play()
         } else {
             logger.debug("Couldn't start playback. Player is not ready")

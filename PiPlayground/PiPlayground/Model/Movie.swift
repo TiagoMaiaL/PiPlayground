@@ -16,3 +16,9 @@ struct Movie: Equatable, Hashable {
 extension Movie: Identifiable {
     var id: Int { hashValue }
 }
+
+extension Movie: CustomStringConvertible {
+    var description: String {
+        "Movie 🎬: \(title), \(subtitle), at \(url.description)"
+    }
+}
