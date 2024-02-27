@@ -14,7 +14,7 @@ import OSLog
     static let isSupportedByCurrentDevice = AVPictureInPictureController.isPictureInPictureSupported()
     private(set) var state: State
     private var pipController: AVPictureInPictureController?
-    private let logger = Logger(subsystem: "com.PiPlayground", category: "PiP")
+    private let logger = Logger(category: .pip)
     var playbackRestorer: PictureInPicturePlaybackRestorer?
     var canBeStarted: Bool {
         state == .inactive

@@ -15,7 +15,7 @@ import OSLog
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var pictureInPicture: PictureInPicture?
-    private let logger = Logger(subsystem: "com.PipPlayground", category: "Movie Session")
+    private let logger = Logger(category: .movieSession)
     
     private(set) var state: State = .idle
     

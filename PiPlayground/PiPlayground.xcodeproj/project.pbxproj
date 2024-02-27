@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		471C20522B7F73AE00C630BE /* PictureInPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471C20512B7F73AE00C630BE /* PictureInPicture.swift */; };
+		471C20552B8D836B00C630BE /* LoggerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471C20542B8D836B00C630BE /* LoggerUtils.swift */; };
 		477266E52B6AC23E004B0EE1 /* PiPlaygroundApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */; };
 		477266E92B6AC23F004B0EE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 477266E82B6AC23F004B0EE1 /* Assets.xcassets */; };
 		477266EC2B6AC23F004B0EE1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 477266EB2B6AC23F004B0EE1 /* Preview Assets.xcassets */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		471C20512B7F73AE00C630BE /* PictureInPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInPicture.swift; sourceTree = "<group>"; };
+		471C20542B8D836B00C630BE /* LoggerUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerUtils.swift; sourceTree = "<group>"; };
 		477266E12B6AC23E004B0EE1 /* PiPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		477266E42B6AC23E004B0EE1 /* PiPlaygroundApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiPlaygroundApp.swift; sourceTree = "<group>"; };
 		477266E82B6AC23F004B0EE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -46,6 +48,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		471C20532B8D835600C630BE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				471C20542B8D836B00C630BE /* LoggerUtils.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		477266D82B6AC23E004B0EE1 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +75,7 @@
 		477266E32B6AC23E004B0EE1 /* PiPlayground */ = {
 			isa = PBXGroup;
 			children = (
+				471C20532B8D835600C630BE /* Extensions */,
 				477266F52B6BCA0C004B0EE1 /* Model */,
 				477266F42B6BC9FF004B0EE1 /* Views */,
 				477266F62B6BCA27004B0EE1 /* Resources */,
@@ -187,6 +198,7 @@
 				477266FA2B6BCC3D004B0EE1 /* MovieCatalog.swift in Sources */,
 				477267002B75839E004B0EE1 /* MovieView.swift in Sources */,
 				477266E52B6AC23E004B0EE1 /* PiPlaygroundApp.swift in Sources */,
+				471C20552B8D836B00C630BE /* LoggerUtils.swift in Sources */,
 				477266FE2B6BD298004B0EE1 /* MovieSession.swift in Sources */,
 				477266F32B6AC8F8004B0EE1 /* MoviesCatalogView.swift in Sources */,
 				477266F82B6BCB06004B0EE1 /* Movie.swift in Sources */,
